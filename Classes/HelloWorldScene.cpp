@@ -367,7 +367,7 @@ void HelloWorld::createBullets(int count)
             bullet->SetActive(false);
 
             b2CircleShape circle;
-            circle.m_radius = 10.0/PTM_RATIO;
+            circle.m_radius = 8.0/PTM_RATIO;
 
             b2FixtureDef ballShapeDef;
             ballShapeDef.shape = &circle;
