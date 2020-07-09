@@ -170,6 +170,10 @@ bool HelloWorld::init()
     bullets = new std::vector<b2Body*>;
     createBullets(7);
     this->attachBullet();
+
+    attachTarget(385.0f, 165.0f);
+    attachTarget(385.0f, 75.0f);
+    attachTarget(275.0f, 150.0f);
     schedule( schedule_selector(HelloWorld::tick) );
 
     return true;
@@ -253,6 +257,54 @@ void HelloWorld::resetBullet()
     attachBullet();
 }
 
+void HelloWorld::attachTarget(float xCor, float yCor)
+{
+    auto target = Sprite::create("grass.png");
+    target->setScaleX(0.3);
+    target->setScaleY(0.05);
+    this->addChild(target);
+
+    // Ball2 initialization
+    b2BodyDef targetBodyDef;
+    targetBodyDef.type = b2_staticBody;
+
+    targetBodyDef.position.Set(xCor/PTM_RATIO,(FLOOR_HEIGHT + yCor)/PTM_RATIO);
+    targetBodyDef.userData = target;
+    b2Body *targetBody = m_world->CreateBody(&targetBodyDef);
+    targetBody->SetGravityScale(0);
+
+    b2PolygonShape targetBox;
+    b2FixtureDef targetBoxDef;
+    targetBoxDef.shape = &targetBox;
+    targetBoxDef.density = 0.3F;
+    targetBox.SetAsBox(43.0f/PTM_RATIO, 3.0f/PTM_RATIO);
+    b2Fixture *targetFixture = targetBody->CreateFixture(&targetBoxDef);
+
+    // Add bottle
+    auto bottle = Sprite::create("bottle_2.png");
+    //bottle->setScale(0.4);
+    //target->setScaleY(0.2);
+    this->addChild(bottle);
+
+    b2BodyDef bottleBodyDef;
+    bottleBodyDef.type = b2_dynamicBody; //this will be a dynamic body
+    bottleBodyDef.position.Set(xCor/PTM_RATIO,(FLOOR_HEIGHT + yCor + 5)/PTM_RATIO); //a little to the left
+    bottleBodyDef.userData = bottle;
+
+    b2Body* bottleBody = m_world->CreateBody(&bottleBodyDef);
+
+    b2CircleShape circleShape;
+    circleShape.m_p.Set(0, 0); //position, relative to body position
+    circleShape.m_radius = 17.0/PTM_RATIO;; // This will make the balls bounce one on top of another
+
+    b2FixtureDef bottleFixtureDef;
+    bottleFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+    bottleFixtureDef.density = 1.0f;
+    bottleFixtureDef.friction = 0.2f;
+    bottleFixtureDef.restitution = 0.0f;
+    bottleBody->CreateFixture(&bottleFixtureDef); //add a fixture to the body
+}
+
 void HelloWorld::tick(float dt)
 {
     m_world->Step(dt, 10, 10);
@@ -315,7 +367,7 @@ void HelloWorld::createBullets(int count)
             bullet->SetActive(false);
 
             b2CircleShape circle;
-            circle.m_radius = 15.0/PTM_RATIO;
+            circle.m_radius = 10.0/PTM_RATIO;
 
             b2FixtureDef ballShapeDef;
             ballShapeDef.shape = &circle;

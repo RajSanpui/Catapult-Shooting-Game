@@ -58,6 +58,7 @@ public:
     void ccTouchesEnded(cocos2d::Touch* touch, cocos2d::Event* evento);
     bool ccTouchesBegan(cocos2d::Touch* touch, cocos2d::Event* evento);
 
+    void attachTarget(float xCor, float yCor);
 
     void createBullets(int count);
     bool attachBullet();
