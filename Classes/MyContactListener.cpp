@@ -21,6 +21,9 @@ void MyContactListener::BeginContact(b2Contact* contact)
     b2Filter filterA = contact->GetFixtureA()->GetFilterData();
     b2Filter filterB = contact->GetFixtureB()->GetFilterData();
 
+    CCLOG("********************** Contact Made! Fixture A: %s", contact->GetFixtureA()->GetBody()->GetUserData());
+    CCLOG("********************** Contact Made! Fixture B: %s", contact->GetFixtureB()->GetBody()->GetUserData());
+
     if ((filterA.categoryBits == (uint) PhysicsCategory::Bomba) &&
         (filterB.categoryBits == (uint) PhysicsCategory::Bomba))
     {
@@ -28,11 +31,15 @@ void MyContactListener::BeginContact(b2Contact* contact)
         //Director::getInstance()->end();
     }
 }
-
+// https://discuss.cocos2d-x.org/t/solved-problem-with-box2d-collision-detection/22029/6
+// 
 void MyContactListener::EndContact(b2Contact* contact)
 {
     b2Filter filterA = contact->GetFixtureA()->GetFilterData();
     b2Filter filterB = contact->GetFixtureB()->GetFilterData();
+
+    CCLOG("********************** Contact Made! Fixture A: %s", contact->GetFixtureA()->GetBody()->GetUserData());
+    CCLOG("********************** Contact Made! Fixture B: %s", contact->GetFixtureB()->GetBody()->GetUserData());
 
     if ((filterA.categoryBits == (uint) PhysicsCategory::Bomba) &&
         (filterB.categoryBits == (uint) PhysicsCategory::Bomba))

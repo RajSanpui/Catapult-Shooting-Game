@@ -44,12 +44,12 @@ public:
     b2Body *armBody;
     b2MouseJoint *mouseJoint;
     b2RevoluteJoint* armJoint;
-
+    MyContactListener *contactListener;
     bool releasingArm;
 
 
 
-    MyContactListener *contactListener;
+    //MyContactListener *contactListener;
     void touch(cocos2d::Point location);
 
     // implement the "static create()" method manually

@@ -91,6 +91,8 @@ bool HelloWorld::init()
     m_world = new b2World(gravity);
     m_world->SetContinuousPhysics(true);
 
+
+
     m_debugLayer = new DebugLayer(m_world);
     this->addChild(m_debugLayer, 9999);
 
@@ -174,6 +176,10 @@ bool HelloWorld::init()
     attachTarget(385.0f, 165.0f);
     attachTarget(385.0f, 75.0f);
     attachTarget(275.0f, 150.0f);
+
+    contactListener = new MyContactListener();
+    m_world->SetContactListener(contactListener);
+
     schedule( schedule_selector(HelloWorld::tick) );
 
     return true;
